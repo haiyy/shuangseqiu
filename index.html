@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>双色球</title>
+    <style type="text/css">
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        img{
+            border:0;
+        }
+        ol, ul ,li{list-style: none;}
+         li{
+              float: left;
+              width:30px;
+              height:30px;
+              line-height:30px;
+              text-align:center;
+              margin:10px;
+         }
+         .warp{
+            width:800px;
+            height:450px;
+            margin: 0 auto;
+            background:#eee;
+            border:1px solid #323232;
+         }
+         h2{
+             width:100%;
+             height:50px;
+             text-align:center;
+             line-height:50px;
+             background:red;
+         }
+         .red{
+             width:100%;
+             height:200px;
+             margin:20px 0;
+             color:red;
+         }
+         .red ul{
+            margin-top:20px;
+         }
+         .blue{
+             width:100%;
+             height:80px;
+             color:blue;
+         }
+         button{
+            width:250px;
+            height:30px;
+            line-height:30px;
+            text-align:center;
+            margin:50px 5px;
+         }
+         .top li.on{
+             background:red;
+             color:#fff;
+             border-radius:50%;
+         }
+         .blue li.on{
+             background:blue;
+             color:#fff;
+             border-radius:50%;
+         }
+    </style>
+</head>
+<body>
+    <div class="warp">
+         <h2>双色球</h2>
+         <div class="red">
+              <h3>红色</h3>
+              <ul class="top">
+
+              </ul>
+         </div>
+         <div class="blue">
+              <h3>蓝色</h3>
+              <ul class="bot">
+
+              </ul>
+         </div>
+         <button class="box1">机选</button>
+         <button class="box2">选定</button>
+         <button class="box3">清空</button>
+    </div>
+    <script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+    <script type="text/javascript">
+          for(var i=1;i<=33;i++){
+            if(i<10){
+                i="0"+i;
+            }
+            $("<li>"+i+"</li>").appendTo(".top");
+            if(i<=16){
+                $("<li>"+i+"</li>").appendTo('.bot');
+            }
+          }
+        function sj(max,min){
+            return Math.floor(Math.random()*(max-min+1)+min);
+        }
+        var arr=[];
+        var time=null;
+          $(".box1").click(function(){
+            $(".box1").prop("disabled",true)
+              time=setInterval(function(){
+                  arr=[];
+                  for(var i=0; i<6;i++){
+                    var str=sj(33,1);
+                    if(arr.indexOf(str)===-1){
+                        arr.push(str);
+                    }else{
+                        i--;
+                    }
+                  }
+                  var str1=sj(16,1);
+                  console.log(arr)
+                   $(".bot li").eq(str1).addClass("on").siblings().removeClass("on");
+                  $(".top li").removeClass("on");
+                  $.each(arr,function(i,v){
+                      $(".top li").eq(v).addClass("on");
+                  })
+              },1000)
+          });
+          $(".box2").click(function(){
+                clearInterval(time);
+                $(".box1").prop("disabled",false)
+          })
+          $(".box3").click(function(){
+                clearInterval(time);
+                $(".top li").removeClass("on");
+                $(".bot li").removeClass("on");
+                 $(".box1").prop("disabled",false)
+          })
+
+    </script>
+</body>
+</html>
